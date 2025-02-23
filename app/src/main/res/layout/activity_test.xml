@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".test.TestActivity">
+
+    <!-- Tìm kiếm Chi Tiêu -->
+    <EditText
+        android:id="@+id/edtSearchExpense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tìm kiếm chi tiêu"
+        android:padding="8dp"/>
+
+    <Button
+        android:id="@+id/btnSearchExpense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tìm kiếm Chi Tiêu"/>
+
+    <!-- Tìm kiếm Thu Nhập -->
+    <EditText
+        android:id="@+id/edtSearchIncome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tìm kiếm thu nhập"
+        android:padding="8dp"/>
+
+    <Button
+        android:id="@+id/btnSearchIncome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tìm kiếm Thu Nhập"/>
+
+    <!-- Tìm kiếm Giao Dịch -->
+    <EditText
+        android:id="@+id/edtSearchTransaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tìm kiếm giao dịch"
+        android:padding="8dp"/>
+
+    <Button
+        android:id="@+id/btnSearchTransaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tìm kiếm Giao Dịch"/>
+
+    <!-- Hiển thị kết quả tìm kiếm -->
+    <TextView
+        android:id="@+id/textResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kết quả tìm kiếm sẽ hiển thị ở đây"
+        android:padding="8dp"/>
+
+    <!-- Thêm Chi Tiêu -->
+    <EditText
+        android:id="@+id/edtExpenseName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tên món chi tiêu"
+        android:padding="8dp"/>
+
+    <EditText
+        android:id="@+id/edtExpenseAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số tiền chi tiêu"
+        android:inputType="numberDecimal"
+        android:padding="8dp"/>
+
+    <Button
+        android:id="@+id/btnAddExpense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm Chi Tiêu"/>
+
+    <!-- Thêm Thu Nhập -->
+    <EditText
+        android:id="@+id/edtIncomeSource"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nguồn thu nhập"
+        android:padding="8dp"/>
+
+    <EditText
+        android:id="@+id/edtIncomeAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số tiền thu nhập"
+        android:inputType="numberDecimal"
+        android:padding="8dp"/>
+
+    <Button
+        android:id="@+id/btnAddIncome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm Thu Nhập"/>
+
+    <!-- Thêm Giao Dịch -->
+    <EditText
+        android:id="@+id/edtTransactionAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Số tiền giao dịch"
+        android:inputType="numberDecimal"
+        android:padding="8dp"/>
+
+    <EditText
+        android:id="@+id/edtTransactionDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nội dung giao dịch"
+        android:padding="8dp"/>
+
+    <Button
+        android:id="@+id/btnAddTransaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm Giao Dịch"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

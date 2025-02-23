@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    font-->
+    <style name="font_extrabold">
+        <item name="fontFamily">@font/nunito_extrabold</item>
+    </style>
+    <style name="font_bold">
+        <item name="fontFamily">@font/nunito_bold</item>
+    </style>
+    <style name="font_semibold">
+        <item name="fontFamily">@font/nunito_semibold</item>
+    </style>
+    <style name="font_medium">
+        <item name="fontFamily">@font/nunito_medium</item>
+    </style>
+    <style name="font_regular">
+        <item name="fontFamily">@font/nunito_regular</item>
+    </style>
+    
+<!--    text -->
+    <style name="style_extrabold" parent="font_extrabold">
+        <item name="android:gravity">center</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="tool_button_style" parent="font_semibold">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/selector_tool_button</item>
+        <item name="android:drawableTint">@color/selector_icon_tint</item>
+        <item name="android:button">@null</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/selector_icon_tint</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawablePadding">4dp</item>
+    </style>
+
+
+
+
+</resources>

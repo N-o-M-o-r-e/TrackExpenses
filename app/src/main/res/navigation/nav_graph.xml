@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/expensesFragment">
+
+    <fragment
+        android:id="@+id/expensesFragment"
+        android:name="com.tstool.trackexpenses.ui.view.home.fragment.ExpensesFragment"
+        android:label="ExpensesFragment"
+        tools:layout="@layout/fragment_expenses" />
+
+    <fragment
+        android:id="@+id/incomeFragment"
+        android:name="com.tstool.trackexpenses.ui.view.home.fragment.IncomeFragment"
+        android:label="IncomeFragment"
+        tools:layout="@layout/fragment_income" />
+
+    <fragment
+        android:id="@+id/chartFragment"
+        android:name="com.tstool.trackexpenses.ui.view.home.fragment.ChartFragment"
+        android:label="ChartFragment"
+        tools:layout="@layout/fragment_chart" />
+
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.tstool.trackexpenses.ui.view.home.fragment.SettingFragment"
+        android:label="SettingFragment"
+        tools:layout="@layout/fragment_setting" />
+</navigation>
