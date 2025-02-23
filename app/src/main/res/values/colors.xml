@@ -3,8 +3,10 @@
     <color name="color_white">#FFFFFF</color>
     <color name="color_black">#383655</color>
     <!-- Primary Colors -->
-    <color name="primary_color">#FDD745</color> <!-- Cam chủ đạo -->
-    <color name="primary_variant">#FDD745</color> <!-- Cam đậm hơn cho nút nhấn -->
+<!--    <color name="primary_color">#FFAB00</color> &lt;!&ndash; Cam chủ đạo &ndash;&gt;-->
+    <color name="primary_color">#383655</color> <!-- Cam chủ đạo -->
+<!--    <color name="primary_variant">#FDD745</color> &lt;!&ndash; Cam đậm hơn cho nút nhấn &ndash;&gt;-->
+    <color name="primary_variant">#383655</color> <!-- Cam đậm hơn cho nút nhấn -->
 
     <!-- Secondary Colors -->
     <color name="secondary_color">#FDD987</color> <!-- Cam nhạt cho nền phụ -->

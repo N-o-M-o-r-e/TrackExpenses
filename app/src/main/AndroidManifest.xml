@@ -14,8 +14,9 @@
         android:theme="@style/Theme.TrackExpenses"
         tools:targetApi="31">
         <activity
-            android:name=".test.TestActivity"
+            android:name=".ui.view.create.CreateExpensesActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.view.home.HomeActivity"
             android:exported="true">
@@ -25,6 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".test.TestActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

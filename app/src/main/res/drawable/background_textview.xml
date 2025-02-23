@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<ripple android:color="@color/border_color" xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <corners android:radius="100dp"/>
             <solid android:color="#80FFFFFF"/>
+            <corners android:radius="8dp"/>
         </shape>
     </item>
-</selector>
+</ripple>

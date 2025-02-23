@@ -35,6 +35,13 @@
         <item name="android:drawablePadding">4dp</item>
     </style>
 
+    <style name="style_textview_tag" parent="font_bold">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginTop">12dp</item>
+    </style>
+
 
 
 
