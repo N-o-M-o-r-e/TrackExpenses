@@ -63,8 +63,15 @@ class ExpensesTagViewHolder(
         binding.tvTag.text = tag.nameTag
 
         when(isSelect){
-            true -> binding.bgItem.backgroundTintList = ContextCompat.getColorStateList(binding.root.context, R.color.primary_variant)
-            false -> binding.bgItem.backgroundTintList = ContextCompat.getColorStateList(binding.root.context, R.color.color_button_text)
+            true -> {
+                binding.bgItem.backgroundTintList = ContextCompat.getColorStateList(binding.root.context, R.color.primary_variant)
+                binding.imgTag.imageTintList = ContextCompat.getColorStateList(binding.root.context, R.color.color_white)
+            }
+            false -> {
+                binding.bgItem.backgroundTintList = ContextCompat.getColorStateList(binding.root.context, R.color.color_button_text)
+                binding.imgTag.imageTintList = ContextCompat.getColorStateList(binding.root.context, R.color.primary_variant)
+
+            }
         }
         binding.root.setOnClickListener {
             listener.onClickExpensesTag(tag)

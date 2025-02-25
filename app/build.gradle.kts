@@ -82,4 +82,7 @@ dependencies {
 
     // Hawk
     implementation(libs.hawk)
+
+    //crop image:
+    implementation ("com.github.yalantis:ucrop:2.2.8")
 }

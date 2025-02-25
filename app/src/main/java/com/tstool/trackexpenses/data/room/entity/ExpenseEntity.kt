@@ -4,14 +4,14 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "expenses")
+@Entity(tableName = "expenses_db")
 data class ExpenseEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id") val id: Int = 0,
-    @ColumnInfo(name = "category") val category: String,  // Ví dụ: "Mua sắm", "Giáo dục", "Sức khỏe"
-    @ColumnInfo(name = "item_name") val itemName: String, // Tên món đồ
-    @ColumnInfo(name = "amount") val amount: Double,    // Giá tiền
-    @ColumnInfo(name = "image_uri") val imageUri: String?, // Lưu đường dẫn ảnh (nếu có)
-    @ColumnInfo(name = "note") val note: String?,     // Ghi chú (nếu có)
-    @ColumnInfo(name = "date") val date: Long         // Timestamp
+    @ColumnInfo(name = "category") val category: String,
+    @ColumnInfo(name = "item_name") val itemName: String,
+    @ColumnInfo(name = "amount") val amount: Double,
+    @ColumnInfo(name = "image_uri") val imageUri: String? = null, // Giá trị mặc định
+    @ColumnInfo(name = "note") val note: String? = null,         // Giá trị mặc định
+    @ColumnInfo(name = "date") val date: Long
 )

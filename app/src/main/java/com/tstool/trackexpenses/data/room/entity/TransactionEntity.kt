@@ -4,13 +4,13 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "transactions")
+@Entity(tableName = "transactions_db")
 data class TransactionEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id") val id: Int = 0,
-    @ColumnInfo(name = "amount") val amount: Double,   // Số tiền chuyển khoản
-    @ColumnInfo(name = "type") val type: String,     // "send" hoặc "receive"
-    @ColumnInfo(name = "description") val description: String, // Nội dung giao dịch
-    @ColumnInfo(name = "image_uri") val image_uri: String?, // Hình ảnh hóa đơn (nếu có)
-    @ColumnInfo(name = "date") val date: Long        // Timestamp
+    @ColumnInfo(name = "amount") val amount: Double,
+    @ColumnInfo(name = "type") val type: String,
+    @ColumnInfo(name = "description") val description: String,
+    @ColumnInfo(name = "image_uri") val image_uri: String? = null,
+    @ColumnInfo(name = "date") val date: Long
 )

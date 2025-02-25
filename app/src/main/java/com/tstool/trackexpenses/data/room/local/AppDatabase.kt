@@ -9,7 +9,11 @@ import com.tstool.trackexpenses.data.room.local.dao.ExpenseDao
 import com.tstool.trackexpenses.data.room.local.dao.IncomeDao
 import com.tstool.trackexpenses.data.room.local.dao.TransactionDao
 
-@Database(entities = [ExpenseEntity::class, IncomeEntity::class, TransactionEntity::class], version = 1)
+@Database(
+    entities = [ExpenseEntity::class, IncomeEntity::class, TransactionEntity::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun expenseDao(): ExpenseDao
     abstract fun incomeDao(): IncomeDao
