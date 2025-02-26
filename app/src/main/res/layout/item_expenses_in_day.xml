@@ -52,7 +52,7 @@
 
 
             <TextView
-                android:id="@+id/tvDesExpenses"
+                android:id="@+id/tvNote"
                 style="@style/font_semibold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,6 +64,7 @@
 
 
             <ImageView
+                android:id="@+id/imgTag"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="@drawable/background_tag"

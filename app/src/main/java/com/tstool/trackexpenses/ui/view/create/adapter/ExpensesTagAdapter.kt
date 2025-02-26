@@ -1,5 +1,6 @@
 package com.tstool.trackexpenses.ui.view.create.adapter
 
+import android.util.Log
 import android.view.LayoutInflater.from
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -29,6 +30,7 @@ class ExpensesTagAdapter(private val listener: ListenerExpensesTag) :
 
             notifyItemChanged(previousPosition)
             notifyItemChanged(selectedPosition)
+            listener.onClickExpensesTag(item)
         }
     }
 
@@ -75,6 +77,7 @@ class ExpensesTagViewHolder(
         }
         binding.root.setOnClickListener {
             listener.onClickExpensesTag(tag)
+            Log.i("__Create", "bind: $tag")
         }
     }
 

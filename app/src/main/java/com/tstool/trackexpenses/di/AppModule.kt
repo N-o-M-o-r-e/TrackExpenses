@@ -31,7 +31,7 @@ val appModule = module {
     single { TransactionRepository(get()) }
 
     // ViewModels
-    viewModel { ExpenseViewModel(get()) }
+    single { ExpenseViewModel(get()) } // Đổi thành single để scope ở mức ứng dụng
     viewModel { IncomeViewModel(get()) }
     viewModel { TransactionViewModel(get()) }
 }

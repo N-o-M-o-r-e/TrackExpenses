@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/expensesFragment"
-        android:name="com.tstool.trackexpenses.ui.view.home.fragment.ExpensesFragment"
+        android:name="com.tstool.trackexpenses.ui.view.home.fragment.expenses.ExpensesFragment"
         android:label="ExpensesFragment"
         tools:layout="@layout/fragment_expenses" />
 

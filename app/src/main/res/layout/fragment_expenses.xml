@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.view.home.fragment.ExpensesFragment">
+        tools:context=".ui.view.home.fragment.expenses.ExpensesFragment">
 
         <LinearLayout
             android:id="@+id/iclStatusBar"
@@ -49,6 +49,7 @@
                     android:backgroundTint="#33000000">
 
                     <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/edtSearchExpense"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:drawablePadding="8dp"
@@ -126,6 +127,7 @@
                             android:textSize="16sp" />
 
                         <TextView
+                            android:id="@+id/tvTotalCost"
                             style="@style/font_extrabold"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
@@ -171,6 +173,7 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvExpenses"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:itemCount="2"

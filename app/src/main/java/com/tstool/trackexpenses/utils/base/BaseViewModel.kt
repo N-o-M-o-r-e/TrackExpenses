@@ -28,6 +28,7 @@ abstract class BaseViewModel<UI_STATE, ACTION, EVENT> : ViewModel() {
     val uiState: UI_STATE
         get() = uiStateFlow.value
 
+
     /**
      * ACTION – Hành động từ UI
      *
@@ -37,7 +38,7 @@ abstract class BaseViewModel<UI_STATE, ACTION, EVENT> : ViewModel() {
      * + actionFlow<T>(): Bộ lọc cho từng loại hành động cụ thể.
      * + dispatch(action): Gửi hành động vào SharedFlow, giúp UI gửi sự kiện đến ViewModel.
      */
-    val actionSharedFlow = MutableSharedFlow<ACTION>()
+    val actionSharedFlow = MutableSharedFlow<ACTION>(extraBufferCapacity = 10) // Buffer actions to prevent loss if no collector is active
     inline fun <reified T : ACTION> actionFlow() = actionSharedFlow.filterIsInstance<T>()
     open fun dispatch(action: ACTION): Job = viewModelScope.launch {
         actionSharedFlow.emit(action)
@@ -54,6 +55,7 @@ abstract class BaseViewModel<UI_STATE, ACTION, EVENT> : ViewModel() {
      */
     private val eventChannel = Channel<EVENT>(Channel.UNLIMITED)
     val eventFlow = eventChannel.receiveAsFlow()
+
     fun sendEvent(event: EVENT) = viewModelScope.launch {
         eventChannel.send(event)
     }

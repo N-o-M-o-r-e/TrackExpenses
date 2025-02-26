@@ -21,10 +21,12 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewbinding.ViewBinding
 import androidx.viewpager2.widget.ViewPager2
+import com.tstool.trackexpenses.R
 import java.io.Serializable
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
@@ -46,18 +48,21 @@ abstract class BaseActivity<Binding : ViewBinding>(private val inflate: Inflate<
     @Suppress("DEPRECATION")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun actionWindow() {
-        enableEdgeToEdge()
-        window.navigationBarColor = Color.BLACK
-        window.statusBarColor = Color.BLACK
-        window.decorView.windowInsetsController?.setSystemBarsAppearance(
-            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS.inv(),
-            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-        )
+        // Đặt màu đen cho status bar và navigation bar
+        window.statusBarColor = ContextCompat.getColor(this, R.color.color_black)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.color_black)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.setSystemBarsAppearance(
+                0,
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                        or WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+            )
+        } else {
+            @Suppress("DEPRECATION")
+            window.decorView.systemUiVisibility =
+                window.decorView.systemUiVisibility and (View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+                        or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv())
         }
     }
 

@@ -30,6 +30,7 @@
                 app:layout_constraintTop_toTopOf="@+id/line">
 
                 <TextView
+                    android:id="@+id/tvDay"
                     style="@style/font_bold"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -41,6 +42,7 @@
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/tvMonth"
                     style="@style/font_medium"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -50,6 +52,7 @@
                     android:textColor="@color/text_color_description" />
 
                 <TextView
+                    android:id="@+id/tvYear"
                     style="@style/font_medium"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -66,12 +69,12 @@
                 android:layout_height="0dp"
                 android:layout_marginVertical="12dp"
                 android:background="@color/text_color_description"
-                app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
+                app:layout_constraintBottom_toBottomOf="@+id/rcvExpensesInDay"
                 app:layout_constraintStart_toEndOf="@+id/viewDateTime"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/rcvExpensesInDay"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -80,7 +83,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/line"
                 app:layout_constraintTop_toTopOf="@+id/line"
-                tools:listitem="@layout/item_expenses" />
+                tools:listitem="@layout/item_expenses_in_day" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -89,9 +89,11 @@
                         android:text="Expense name:" />
 
                     <EditText
+                        android:id="@+id/edtInputName"
                         style="@style/font_medium"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
+                        android:hint="Enter the name of the charge"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/background_edittext"
                         android:paddingHorizontal="16dp"
@@ -102,16 +104,18 @@
                         style="@style/style_textview_tag"
                         android:text="Payment price" />
 
-                    <EditText
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/edtInputPrice"
                         style="@style/font_medium"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/background_edittext"
-                        android:hint=""
+                        android:hint="Enter amount"
                         android:paddingHorizontal="16dp"
-                        android:textSize="16sp" />
-
+                        android:textSize="16sp"
+                        android:inputType="numberDecimal"
+                        android:digits="0123456789." />
 
                     <TextView
                         android:id="@+id/tvDesExpenses"
@@ -124,7 +128,8 @@
                         android:background="@drawable/background_edittext"
                         android:orientation="vertical">
 
-                        <EditText
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/edtInputNote"
                             style="@style/font_medium"
                             android:layout_width="match_parent"
                             android:layout_height="52dp"

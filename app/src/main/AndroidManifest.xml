@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -15,7 +19,7 @@
         android:screenOrientation="portrait"
         android:windowSoftInputMode="adjustResize"
         tools:ignore="DiscouragedApi,LockedOrientationActivity"
-        tools:targetApi="31">
+        tools:targetApi="tiramisu">
         <activity
             android:name=".ui.view.create.CreateExpensesActivity"
             android:exported="false" />
