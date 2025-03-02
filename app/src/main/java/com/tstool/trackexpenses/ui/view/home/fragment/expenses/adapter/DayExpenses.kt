@@ -1,5 +1,4 @@
-// ExpensesAdapter.kt
-package com.tstool.trackexpenses.ui.view.home.fragment
+package com.tstool.trackexpenses.ui.view.home.fragment.expenses.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,29 +8,30 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tstool.trackexpenses.data.room.entity.ExpenseEntity
 import com.tstool.trackexpenses.databinding.ItemDateTimeBinding
-import com.tstool.trackexpenses.ui.view.home.fragment.expenses.adapter.ExpensesInDayAdapter
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 data class DayExpenses(val dayTimestamp: Long, val expenses: List<ExpenseEntity>)
 
-class ExpensesAdapter :
+class ExpensesAdapter(private val listener: OnListenerExpenses) :
     ListAdapter<DayExpenses, ExpensesAdapter.ExpensesViewHolder>(DayExpensesDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpensesViewHolder {
         val binding = ItemDateTimeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ExpensesViewHolder(binding)
+        return ExpensesViewHolder(binding, listener)
     }
 
     override fun onBindViewHolder(holder: ExpensesViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class ExpensesViewHolder(private val binding: ItemDateTimeBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class ExpensesViewHolder(
+        private val binding: ItemDateTimeBinding,
+        private val listener: OnListenerExpenses
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        private val expensesInDayAdapter = ExpensesInDayAdapter()
+        private val expensesInDayAdapter = ExpensesInDayAdapter(listener)
 
         init {
             binding.rcvExpensesInDay.apply {
@@ -45,7 +45,6 @@ class ExpensesAdapter :
             binding.tvDay.text = SimpleDateFormat("dd", Locale.getDefault()).format(calendar.time)
             binding.tvMonth.text = SimpleDateFormat("MMM", Locale.getDefault()).format(calendar.time).lowercase()
             binding.tvYear.text = SimpleDateFormat("yyyy", Locale.getDefault()).format(calendar.time)
-
             expensesInDayAdapter.submitList(dayExpenses.expenses)
         }
     }
@@ -59,4 +58,8 @@ class ExpensesAdapter :
             return oldItem == newItem
         }
     }
+}
+
+interface OnListenerExpenses {
+    fun onClickExpense(expense: ExpenseEntity)
 }

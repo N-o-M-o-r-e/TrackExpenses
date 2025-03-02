@@ -9,22 +9,20 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.tstool.trackexpenses.R
 
-fun Context.loadFileDirWithGlide(
-    viewImage: ImageView,
+fun Context.loadImageWithGlide(
+    imageView: ImageView,
     bitmap: Bitmap? = null,
-    uri: Uri? = null) {
-    // Kiểm tra bitmap trước, nếu không có thì dùng Uri
-    val loadTarget = bitmap ?: uri
+    uri: Uri? = null,
+    resource: Int? = null) {
+    val data = bitmap ?: uri ?: resource
 
-    // Sử dụng Glide để load ảnh linh hoạt từ Bitmap hoặc Uri
     Glide.with(this)
-        .load(loadTarget)
-        .placeholder(R.drawable.ic_place_holder)
-        .error(R.drawable.ic_error)
-        .listener(object : com.bumptech.glide.request.RequestListener<Drawable> {
+        .load(data).placeholder(android.R.drawable.ic_menu_gallery)
+        .error(android.R.drawable.ic_menu_report_image)
+        .listener(object : RequestListener<Drawable> {
             override fun onLoadFailed(
                 e: GlideException?,
                 model: Any?,
@@ -45,5 +43,5 @@ fun Context.loadFileDirWithGlide(
                 return false
             }
         })
-        .into(viewImage)
+        .into(imageView)
 }

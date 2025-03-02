@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#969696</color>
+
     <color name="color_white">#FFFFFF</color>
     <color name="color_black">#383655</color>
     <!-- Primary Colors -->
@@ -50,7 +55,8 @@
 
     <!-- Shadow and Ripple Effects -->
     <color name="color_shadow">#40000000</color> <!-- Bóng đổ mờ (đen trong suốt 25%) -->
-    <color name="color_ripple">#FF9800</color> <!-- Hiệu ứng nhấn màu cam chủ đạo -->
+    <color name="color_ripple">#FF9800</color>
+    <color name="red_color">#EF6C6C</color> <!-- Hiệu ứng nhấn màu cam chủ đạo -->
 </resources>
 
 

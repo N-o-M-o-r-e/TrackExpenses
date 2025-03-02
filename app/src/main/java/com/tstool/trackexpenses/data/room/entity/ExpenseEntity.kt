@@ -1,10 +1,11 @@
 package com.tstool.trackexpenses.data.room.entity
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.tstool.trackexpenses.data.model.ExpenseTag
-
+import kotlinx.android.parcel.Parcelize
+@Parcelize
 @Entity(tableName = "expenses_db")
 data class ExpenseEntity(
     @PrimaryKey(autoGenerate = true)
@@ -15,4 +16,4 @@ data class ExpenseEntity(
     @ColumnInfo(name = "image_uri") val imageUri: String? = null,
     @ColumnInfo(name = "note") val note: String? = null,
     @ColumnInfo(name = "date") val date: Long
-)
+) : Parcelable

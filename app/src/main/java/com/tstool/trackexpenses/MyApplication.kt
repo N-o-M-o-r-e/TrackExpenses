@@ -10,7 +10,9 @@ import androidx.multidex.MultiDexApplication
 import com.orhanobut.hawk.Hawk
 import com.tstool.trackexpenses.di.appModule
 import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 
 class MyApplication : MultiDexApplication(), DefaultLifecycleObserver, ViewModelStoreOwner {
 
@@ -35,6 +37,7 @@ class MyApplication : MultiDexApplication(), DefaultLifecycleObserver, ViewModel
 
     private fun initKoin() {
         startKoin {
+            androidLogger(Level.DEBUG)
             androidContext(this@MyApplication)
             modules(appModule)
         }

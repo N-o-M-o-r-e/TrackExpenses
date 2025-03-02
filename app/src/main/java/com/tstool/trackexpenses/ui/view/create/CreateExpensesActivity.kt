@@ -5,19 +5,20 @@ import android.net.Uri
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.tstool.trackexpenses.data.model.ExpenseTag
 import com.tstool.trackexpenses.data.room.entity.ExpenseEntity
 import com.tstool.trackexpenses.databinding.ActivityCreateExpensesBinding
 import com.tstool.trackexpenses.ui.view.create.adapter.ExpensesTagAdapter
 import com.tstool.trackexpenses.ui.view.create.adapter.ListenerExpensesTag
-import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseAction
 import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseEvent
+import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseUiAction
 import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseViewModel
 import com.tstool.trackexpenses.utils.base.BaseActivity
-
+import com.tstool.trackexpenses.utils.ktx.formatCurrencyInput
+import com.tstool.trackexpenses.utils.ktx.getCurrencyValue
 import com.yalantis.ucrop.UCrop
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
@@ -29,84 +30,116 @@ import java.util.Locale
 class CreateExpensesActivity :
     BaseActivity<ActivityCreateExpensesBinding>(ActivityCreateExpensesBinding::inflate) {
 
-    private val viewModel: ExpenseViewModel by viewModel()
+    private val viewModel by viewModel<ExpenseViewModel>()
     private lateinit var adapter: ExpensesTagAdapter
     private val listTag = ExpenseTag.entries
     private var selectedTag: String = ExpenseTag.entries[0].nameTag
     private var imagePath: String? = null
-    private var isAdding = false // Biến kiểm soát trạng thái thêm
-
-    private val pickImageLauncher =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let { startCrop(it) }
-        }
+    private var isAdding = false
 
     override fun initAds() {}
 
     override fun initViewModel() {
+        Log.d("__INSTANCE", "Instance VM in CreateAct: ${viewModel.hashCode()}")
+
         lifecycleScope.launch {
-            viewModel.eventFlow.collectLatest { event ->
+            viewModel.uiState.collect { state ->
+                binding.progressBar.isVisible = state.isLoading
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.eventFlow.collect { event ->
                 when (event) {
-                    is ExpenseEvent.ShowSuccess -> {
-                        Log.d("CreateExpenses", "Success: ${event.message}")
-                        toastMessage(event.message)
-                        finish()
+                    ExpenseEvent.ExpenseAdded -> {
+                        onBackPressed()
                     }
-
-                    is ExpenseEvent.ShowError -> {
-                        Log.e("CreateExpenses", "Error: ${event.message}")
+                    ExpenseEvent.ExpenseDeleted -> TODO()
+                    ExpenseEvent.ExpenseFiltered -> TODO()
+                    ExpenseEvent.ExpenseSearched -> TODO()
+                    ExpenseEvent.ExpenseUpdated -> TODO()
+                    is ExpenseEvent.ShowToast -> {
                         toastMessage(event.message)
-                        isAdding = false // Reset trạng thái nếu lỗi
-                        binding.btnAddExpense.isEnabled = true
                     }
-
-                    else -> {}
+                    is ExpenseEvent.ShowPrices -> TODO()
                 }
             }
         }
     }
 
-    override fun initData() {
+    override fun initData() {}
+
+    override fun initView() {
+        binding.edtInputPrice.formatCurrencyInput()
         adapter = ExpensesTagAdapter(object : ListenerExpensesTag {
             override fun onClickExpensesTag(folder: ExpenseTag) {
                 selectedTag = folder.nameTag
-                Log.i("CreateExpenses", "Selected tag: $selectedTag")
             }
         })
         binding.rcvExpensesTag.adapter = adapter
         adapter.submitList(listTag)
     }
 
-    override fun initView() {}
-
     override fun initAction() {
-        binding.btnBack.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
-
-        binding.btnQuestion.setOnClickListener {
-            toastMessage("Show")
-        }
-
-        binding.btnImportImage.setOnClickListener {
-            pickImageLauncher.launch("image/*")
-        }
-
+        binding.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+        binding.btnQuestion.setOnClickListener { toastMessage("Show") }
+        binding.btnImportImage.setOnClickListener { pickImageLauncher.launch("image/*") }
         binding.btnAddExpense.setOnClickListener {
-            if (!isAdding) { // Chỉ cho phép thêm khi không đang xử lý
-                Log.i("CreateExpenses", "Add expense button clicked")
+            if (!isAdding) {
                 isAdding = true
-                binding.btnAddExpense.isEnabled = false // Disable nút để tránh nhấn nhiều lần
-                addExpense()
+                binding.btnAddExpense.isEnabled = false
+
+                val itemName = binding.edtInputName.text.toString().trim()
+                val priceText = binding.edtInputPrice.text.toString().trim()
+                val note = binding.edtInputNote.text.toString().trim()
+                val category = selectedTag
+
+                if (itemName.isEmpty()) {
+                    Log.w("__CR", "Item name is empty")
+                    toastMessage("Please enter expense name")
+                    isAdding = false
+                    binding.btnAddExpense.isEnabled = true
+                    return@setOnClickListener
+                }
+                if (priceText.isEmpty()) {
+                    toastMessage("Please enter price")
+                    isAdding = false
+                    binding.btnAddExpense.isEnabled = true
+                    return@setOnClickListener
+                }
+                val price = binding.edtInputPrice.getCurrencyValue()
+                if (price == null || price < 0) {
+                    toastMessage("Invalid price")
+                    isAdding = false
+                    binding.btnAddExpense.isEnabled = true
+                    return@setOnClickListener
+                }
+
+                val expense = ExpenseEntity(
+                    id = 0,
+                    category = category,
+                    itemName = itemName,
+                    price = price,
+                    imageUri = imagePath,
+                    note = note.ifEmpty { null },
+                    date = System.currentTimeMillis()
+                )
+
+                Log.i("__CR", "insert: $expense")
+                viewModel.dispatch(ExpenseUiAction.Add(expense))
             }
         }
     }
+
+    private val pickImageLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { startCrop(it) }
+        }
 
     private fun startCrop(sourceUri: Uri) {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val destinationFileName = "Expense_$timeStamp.jpg"
         val destinationUri = Uri.fromFile(File(cacheDir, destinationFileName))
-
         UCrop.of(sourceUri, destinationUri).withAspectRatio(1f, 1f).withMaxResultSize(512, 512)
             .start(this)
     }
@@ -119,18 +152,16 @@ class CreateExpensesActivity :
                 resultUri?.let {
                     imagePath = saveImageToInternalStorage(it)
                     if (imagePath != null) {
-                        Log.i("CreateExpenses", "Image saved at: $imagePath")
                         binding.imgDes.setImageURI(Uri.parse(imagePath))
                         binding.imgDes.visibility = View.VISIBLE
                     } else {
-                        Log.e("CreateExpenses", "Failed to save image")
                         toastMessage("Failed to save image")
                     }
                 }
             }
             resultCode == UCrop.RESULT_ERROR -> {
                 val cropError = data?.let { UCrop.getError(it) }
-                Log.e("CreateExpenses", "Crop error: ${cropError?.message}")
+                Log.e("__CR", "Crop error: ${cropError?.message}")
                 toastMessage("Crop error: ${cropError?.message}")
             }
         }
@@ -141,7 +172,6 @@ class CreateExpensesActivity :
             val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             val fileName = "Expense_$timeStamp.jpg"
             val internalFile = File(filesDir, fileName)
-
             contentResolver.openInputStream(uri)?.use { inputStream ->
                 FileOutputStream(internalFile).use { outputStream ->
                     inputStream.copyTo(outputStream)
@@ -154,54 +184,7 @@ class CreateExpensesActivity :
         }
     }
 
-    private fun addExpense() {
-        val itemName = binding.edtInputName.text.toString().trim()
-        val priceText = binding.edtInputPrice.text.toString().trim()
-        val note = binding.edtInputNote.text.toString().trim()
-        val category = selectedTag
-
-        Log.i(
-            "CreateExpenses",
-            "Adding expense - Category: $category, Item: $itemName, Price: $priceText, Note: $note, Image: $imagePath"
-        )
-
-        if (itemName.isEmpty()) {
-            Log.w("CreateExpenses", "Item name is empty")
-            toastMessage("Please enter expense name")
-            resetAddState()
-            return
-        }
-        if (priceText.isEmpty()) {
-            Log.w("CreateExpenses", "Price is empty")
-            toastMessage("Please enter price")
-            resetAddState()
-            return
-        }
-
-        val price = priceText.toDoubleOrNull()
-        if (price == null || price < 0) {
-            Log.w("CreateExpenses", "Invalid price: $priceText")
-            toastMessage("Invalid price")
-            resetAddState()
-            return
-        }
-
-        val expense = ExpenseEntity(
-            id = 0,
-            category = category,
-            itemName = itemName,
-            price = price,
-            imageUri = imagePath,
-            note = note.ifEmpty { null },
-            date = System.currentTimeMillis()
-        )
-
-        Log.i("CreateExpenses", "Dispatching expense: $expense")
-        viewModel.dispatch(ExpenseAction.Add(expense))
-    }
-
-    private fun resetAddState() {
-        isAdding = false
-        binding.btnAddExpense.isEnabled = true
+    companion object{
+        const val TAG = "__CR"
     }
 }

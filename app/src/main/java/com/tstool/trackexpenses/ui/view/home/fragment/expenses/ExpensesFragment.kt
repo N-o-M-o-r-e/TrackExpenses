@@ -1,17 +1,16 @@
 package com.tstool.trackexpenses.ui.view.home.fragment.expenses
 
-import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.tstool.trackexpenses.data.room.entity.ExpenseEntity
 import com.tstool.trackexpenses.databinding.FragmentExpensesBinding
-import com.tstool.trackexpenses.ui.view.home.fragment.DayExpenses
-import com.tstool.trackexpenses.ui.view.home.fragment.ExpensesAdapter
-import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseAction
+import com.tstool.trackexpenses.ui.view.detail.DetailActivity
+import com.tstool.trackexpenses.ui.view.home.fragment.expenses.adapter.DayExpenses
+import com.tstool.trackexpenses.ui.view.home.fragment.expenses.adapter.ExpensesAdapter
+import com.tstool.trackexpenses.ui.view.home.fragment.expenses.adapter.OnListenerExpenses
 import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseEvent
+import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseUiAction
 import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseViewModel
 import com.tstool.trackexpenses.utils.base.BaseFragment
 import kotlinx.coroutines.launch
@@ -19,44 +18,42 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.DecimalFormat
 import java.util.Calendar
 
-class ExpensesFragment(private val expenseViewModel: ExpenseViewModel) :
-    BaseFragment<FragmentExpensesBinding>(FragmentExpensesBinding::inflate) {
+class ExpensesFragment : BaseFragment<FragmentExpensesBinding>(FragmentExpensesBinding::inflate) {
 
-    private val expensesAdapter: ExpensesAdapter by lazy { ExpensesAdapter() }
+    private val viewModel by viewModel<ExpenseViewModel>()
 
-    companion object {
-        fun newInstance(viewModel: ExpenseViewModel) = ExpensesFragment(viewModel)
+    private val expensesAdapter: ExpensesAdapter by lazy {
+        ExpensesAdapter(object : OnListenerExpenses {
+            override fun onClickExpense(expense: ExpenseEntity) {
+                goToNewActivity(
+                    activity = DetailActivity::class.java,
+                    isFinish = false,
+                    data = expense,
+                    key = KEY_EXPENSE
+                )
+            }
+        })
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
-        initViewModel()
-        initAction()
-    }
-
-    override fun initAds() {}
 
     override fun initViewModel() {
+        Log.d("__INSTANCE", "Instance VM in Frg: ${viewModel.hashCode()}")
         lifecycleScope.launch {
-            expenseViewModel.uiStateFlow.collect { state ->
+            viewModel.uiState.collect { state ->
                 updateTotalCost(state.expenses)
                 updateExpensesByDay(state.expenses)
             }
         }
 
         lifecycleScope.launch {
-            expenseViewModel.eventFlow.collect { event ->
+            viewModel.eventFlow.collect { event ->
                 when (event) {
-                    is ExpenseEvent.ShowPrices -> {
-                        Log.d("ExpensesFragment", "Prices for ${event.category}: ${event.prices}")
-                    }
-                    is ExpenseEvent.ShowSuccess -> {
-                        Log.d("ExpensesFragment", "Success: ${event.message}")
-                    }
-                    is ExpenseEvent.ShowError -> {
-                        Log.e("ExpensesFragment", "Error: ${event.message}")
-                    }
+                    ExpenseEvent.ExpenseAdded -> TODO()
+                    ExpenseEvent.ExpenseDeleted -> TODO()
+                    ExpenseEvent.ExpenseFiltered -> TODO()
+                    ExpenseEvent.ExpenseSearched -> TODO()
+                    ExpenseEvent.ExpenseUpdated -> TODO()
+                    is ExpenseEvent.ShowToast -> TODO()
+                    is ExpenseEvent.ShowPrices -> TODO()
                 }
             }
         }
@@ -64,29 +61,22 @@ class ExpensesFragment(private val expenseViewModel: ExpenseViewModel) :
 
     override fun initData() {}
 
-    override fun initView() {}
+    override fun initView() {
+        binding.rcvExpenses.adapter = expensesAdapter
+    }
 
     override fun initAction() {
         binding.edtSearchExpense.addTextChangedListener { text ->
             val query = text.toString().trim()
             if (query.isNotEmpty()) {
-                expenseViewModel.dispatch(ExpenseAction.Search(query))
+                viewModel.dispatch(ExpenseUiAction.Search(query))
             } else {
-                expenseViewModel.dispatch(ExpenseAction.GetByDay(System.currentTimeMillis()))
+                viewModel.dispatch(ExpenseUiAction.GetByDay(System.currentTimeMillis()))
             }
         }
-
-        binding.btnCalendar.setOnClickListener {
-            expenseViewModel.dispatch(ExpenseAction.GetByDay(System.currentTimeMillis()))
-        }
     }
 
-    private fun setupRecyclerView() {
-        binding.rcvExpenses.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = expensesAdapter
-        }
-    }
+    override fun initAds() {}
 
     private fun updateTotalCost(expenses: List<ExpenseEntity>) {
         val totalCost = expenses.sumOf { it.price }
@@ -111,5 +101,9 @@ class ExpensesFragment(private val expenseViewModel: ExpenseViewModel) :
         }.sortedByDescending { it.dayTimestamp }
 
         expensesAdapter.submitList(dayExpensesList)
+    }
+
+    companion object {
+        const val KEY_EXPENSE = "KEY_EXPENSE"
     }
 }

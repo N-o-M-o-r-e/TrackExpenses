@@ -1,29 +1,32 @@
 package com.tstool.trackexpenses.ui.view.home
 
+import android.util.Log
 import androidx.viewpager2.widget.ViewPager2
 import com.tstool.trackexpenses.databinding.ActivityHomeBinding
 import com.tstool.trackexpenses.ui.view.create.CreateExpensesActivity
 import com.tstool.trackexpenses.ui.view.home.fragment.adapter.ViewPagerAdapter
 import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseViewModel
-import com.tstool.trackexpenses.ui.view.viewmodel.FinanceViewModel
 import com.tstool.trackexpenses.utils.base.BaseActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
     private lateinit var viewPager: ViewPager2
     private lateinit var viewPagerAdapter: ViewPagerAdapter
-    private val financeViewModel by viewModel<FinanceViewModel>()
-    private val expenseViewModel by viewModel<ExpenseViewModel>() // Lấy instance chung
+    private val viewModel by viewModel<ExpenseViewModel>()
 
-    override fun initAds() {}
+    override fun initAds() {
 
-    override fun initViewModel() {}
+    }
+
+    override fun initViewModel() {
+        Log.d("__INSTANCE", "Instance Home: ${viewModel.hashCode()}")
+    }
 
     override fun initData() {}
 
     override fun initView() {
         viewPager = binding.viewPager
-        viewPagerAdapter = ViewPagerAdapter(this, expenseViewModel)
+        viewPagerAdapter = ViewPagerAdapter(this)
         viewPager.adapter = viewPagerAdapter
         viewPager.offscreenPageLimit = 3
         viewPager.setPageTransformer(FadePageTransformer())

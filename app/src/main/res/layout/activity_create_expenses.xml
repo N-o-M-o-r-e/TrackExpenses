@@ -161,6 +161,14 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"
+                    android:layout_margin="10dp"/>
+
                 <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                     android:id="@+id/btnAddExpense"
                     style="@style/font_semibold"
@@ -169,6 +177,7 @@
                     android:layout_margin="20dp"
                     android:backgroundTint="@color/primary_variant"
                     android:text="Add Expenses"
+                    android:enabled="true"
                     android:textColor="@color/color_white" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>

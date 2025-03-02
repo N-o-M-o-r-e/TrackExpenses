@@ -2,72 +2,43 @@ package com.tstool.trackexpenses.data.room.repository
 
 import com.tstool.trackexpenses.data.room.entity.ExpenseEntity
 import com.tstool.trackexpenses.data.room.local.dao.ExpenseDao
+import kotlinx.coroutines.flow.Flow
+
+import java.util.Calendar
 
 class ExpenseRepository(private val expenseDao: ExpenseDao) {
-    suspend fun getAllExpenses(): Result<List<ExpenseEntity>> = try {
-        Result.success(expenseDao.getAll())
-    } catch (e: Exception) {
-        Result.failure(e)
-    }
+    fun getAllExpenses(): Flow<List<ExpenseEntity>> = expenseDao.getAll()
 
-    suspend fun getExpenseById(id: Int): Result<ExpenseEntity?> = try {
-        Result.success(expenseDao.getById(id))
-    } catch (e: Exception) {
-        Result.failure(e)
-    }
+    fun getExpenseById(id: Int): Flow<ExpenseEntity?> = expenseDao.getById(id)
 
-    suspend fun searchExpenses(query: String): Result<List<ExpenseEntity>> = try {
-        Result.success(expenseDao.search(query))
-    } catch (e: Exception) {
-        Result.failure(e)
-    }
+    fun getExpensesByDateRange(startDate: Long, endDate: Long): Flow<List<ExpenseEntity>> =
+        expenseDao.getByDateRange(startDate, endDate)
 
-    suspend fun getExpensesByDateRange(startDate: Long, endDate: Long): Result<List<ExpenseEntity>> = try {
-        Result.success(expenseDao.getByDateRange(startDate, endDate))
-    } catch (e: Exception) {
-        Result.failure(e)
-    }
+    fun getPricesByCategory(category: String): Flow<List<Double>> =
+        expenseDao.getPricesByCategory(category)
 
-    suspend fun getPricesByCategory(category: String): Result<List<Double>> = try {
-        Result.success(expenseDao.getPricesByCategory(category))
-    } catch (e: Exception) {
-        Result.failure(e)
-    }
-
-    // Thêm hàm mới: Lấy danh sách expense trong một ngày
-    suspend fun getExpensesByDay(day: Long): Result<List<ExpenseEntity>> = try {
-        val calendar = java.util.Calendar.getInstance().apply {
-            timeInMillis = day
-            set(java.util.Calendar.HOUR_OF_DAY, 0)
-            set(java.util.Calendar.MINUTE, 0)
-            set(java.util.Calendar.SECOND, 0)
-            set(java.util.Calendar.MILLISECOND, 0)
-        }
+    fun getExpensesByDay(date: Long): Flow<List<ExpenseEntity>> {
+        val calendar = getCalendarInstance(date)
         val dayStart = calendar.timeInMillis
-        val dayEnd = dayStart + 24 * 60 * 60 * 1000 // Cộng 1 ngày (86,400,000 ms)
-        Result.success(expenseDao.getByDay(dayStart, dayEnd))
-    } catch (e: Exception) {
-        Result.failure(e)
+        val dayEnd = dayStart + 24 * 60 * 60 * 1000
+        return expenseDao.getByDay(dayStart, dayEnd)
     }
 
-    suspend fun insertExpense(expense: ExpenseEntity): Result<Long> = try {
-        val id = expenseDao.insert(expense)
-        Result.success(id)
-    } catch (e: Exception) {
-        Result.failure(e)
-    }
+    suspend fun insertExpense(expense: ExpenseEntity): Long = expenseDao.insert(expense)
 
-    suspend fun updateExpense(expense: ExpenseEntity): Result<Unit> = try {
-        expenseDao.update(expense)
-        Result.success(Unit)
-    } catch (e: Exception) {
-        Result.failure(e)
-    }
+    suspend fun updateExpense(expense: ExpenseEntity) = expenseDao.update(expense)
 
-    suspend fun deleteExpense(expense: ExpenseEntity): Result<Unit> = try {
-        expenseDao.delete(expense)
-        Result.success(Unit)
-    } catch (e: Exception) {
-        Result.failure(e)
+    suspend fun deleteExpense(expense: ExpenseEntity) = expenseDao.delete(expense)
+
+    fun searchExpenses(query: String): Flow<List<ExpenseEntity>> = expenseDao.search(query)
+}
+
+private fun getCalendarInstance(date: Long): Calendar {
+    return Calendar.getInstance().apply {
+        timeInMillis = date
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
     }
 }
