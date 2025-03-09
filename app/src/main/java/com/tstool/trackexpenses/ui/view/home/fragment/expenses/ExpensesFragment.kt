@@ -5,6 +5,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.tstool.trackexpenses.data.room.entity.ExpenseEntity
 import com.tstool.trackexpenses.databinding.FragmentExpensesBinding
+import com.tstool.trackexpenses.ui.view.create.helper.MonthPickerHelper
 import com.tstool.trackexpenses.ui.view.detail.DetailActivity
 import com.tstool.trackexpenses.ui.view.home.fragment.expenses.adapter.DayExpenses
 import com.tstool.trackexpenses.ui.view.home.fragment.expenses.adapter.ExpensesAdapter
@@ -16,7 +17,9 @@ import com.tstool.trackexpenses.utils.base.BaseFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class ExpensesFragment : BaseFragment<FragmentExpensesBinding>(FragmentExpensesBinding::inflate) {
 
@@ -46,15 +49,7 @@ class ExpensesFragment : BaseFragment<FragmentExpensesBinding>(FragmentExpensesB
 
         lifecycleScope.launch {
             viewModel.eventFlow.collect { event ->
-                when (event) {
-                    ExpenseEvent.ExpenseAdded -> TODO()
-                    ExpenseEvent.ExpenseDeleted -> TODO()
-                    ExpenseEvent.ExpenseFiltered -> TODO()
-                    ExpenseEvent.ExpenseSearched -> TODO()
-                    ExpenseEvent.ExpenseUpdated -> TODO()
-                    is ExpenseEvent.ShowToast -> TODO()
-                    is ExpenseEvent.ShowPrices -> TODO()
-                }
+
             }
         }
     }
@@ -72,6 +67,14 @@ class ExpensesFragment : BaseFragment<FragmentExpensesBinding>(FragmentExpensesB
                 viewModel.dispatch(ExpenseUiAction.Search(query))
             } else {
                 viewModel.dispatch(ExpenseUiAction.GetByDay(System.currentTimeMillis()))
+            }
+        }
+
+        binding.btnCalendar.setOnClickListener {
+            MonthPickerHelper.showMonthPicker(requireContext()) { startOfMonth, endOfMonth ->
+                viewModel.dispatch(ExpenseUiAction.FilterByDateRange(startOfMonth, endOfMonth))
+//                val sdf = SimpleDateFormat("MM/yyyy", Locale("vi", "VN"))
+//                binding.edtDateTime.setText(sdf.format(Date(startOfMonth))) // Hiển thị tháng đã chọn
             }
         }
     }

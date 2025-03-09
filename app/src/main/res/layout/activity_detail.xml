@@ -7,18 +7,19 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_white"
+        android:background="@drawable/background_app"
+        android:orientation="vertical"
         tools:context=".ui.view.detail.DetailActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/statusBar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@color/primary_variant"
+            android:background="@color/color_transparent"
             android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -30,7 +31,8 @@
                 android:src="@drawable/ic_back"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:tint="@color/black" />
 
             <TextView
                 style="@style/style_extrabold"
@@ -38,7 +40,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center|start"
                 android:text="Expenses"
-                android:textColor="@color/color_white"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -46,25 +48,25 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <ImageView
-                android:id="@+id/actEdit"
+                android:id="@+id/btnEdit"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_edit"
-                android:visibility="gone"
-                app:tint="@color/color_white"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/btnDelete"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/actDelete"/>
+                app:tint="@color/black" />
 
             <ImageView
-                android:id="@+id/actDelete"
+                android:id="@+id/btnDelete"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_bin"
-                android:visibility="gone"
-                app:tint="@color/color_white"
+                android:visibility="visible"
+                app:tint="@color/black"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -73,25 +75,26 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="12dp"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
             app:layout_constraintTop_toBottomOf="@+id/statusBar">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/viewCard"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:cardCornerRadius="100dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                app:cardCornerRadius="12dp">
+                app:cardElevation="0dp">
 
                 <ImageView
                     android:id="@+id/imgTag"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:scaleType="centerCrop"
+                    android:scaleType="centerInside"
                     android:src="@drawable/ic_drink" />
             </androidx.cardview.widget.CardView>
 
@@ -101,74 +104,138 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:gravity="center"
+                android:gravity="center|start"
                 android:text="Cafe"
+                android:paddingHorizontal="12dp"
                 android:textColor="@color/color_black"
-                android:textSize="20dp" />
-
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="0dp"
-                android:layout_gravity="center">
-
-                <ImageView
-                    android:id="@+id/imgExpenses"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"/>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edtDescription"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:layout_margin="20dp"
-                android:gravity="top|start"
-                style="@style/font_medium"
-                android:textSize="16sp"
-                android:padding="12dp"
-                android:hint="hahahahah"
-                android:background="@drawable/background_edittext" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="20dp">
-
-                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                    android:id="@+id/btnUpdate"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="48dp"
-                    android:backgroundTint="@color/primary_color"
-                    android:textColor="@color/color_white"
-                    android:layout_gravity="bottom"
-                    android:layout_marginEnd="10dp"
-                    android:text="Save"/>
-
-                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                    android:id="@+id/btnDelete"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="48dp"
-                    android:backgroundTint="@color/red_color"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/color_white"
-                    android:layout_gravity="bottom"
-                    android:text="Delete"/>
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                android:textSize="20sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/viewCardMoney"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:cardElevation="0dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="100dp">
+
+                <ImageView
+                    android:id="@+id/imgMoney"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_money" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvMoney"
+                style="@style/font_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center|start"
+                android:paddingStart="12dp"
+                android:text="0"
+                android:textColor="@color/color_black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tvCurrency"
+                style="@style/font_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center|start"
+                android:paddingStart="4dp"
+                android:text="$"
+                android:textColor="@color/color_black"
+                android:textSize="20sp" />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="12dp"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/statusBar">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/viewCardCalender"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:id="@+id/imglender"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_calendar" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvCalendar"
+                style="@style/font_bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center|start"
+                android:paddingHorizontal="12dp"
+                android:text="10:20 - 04 thg 3 2025"
+                android:textColor="@color/color_black"
+                android:textSize="20sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:minHeight="120dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    style="@style/style_regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|start"
+                    android:text="Description........\n..........\n................\n..........."
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/imgExpenses"
+                    android:layout_width="240dp"
+                    android:layout_height="240dp"
+                    android:layout_marginTop="12dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/background_04" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

@@ -45,7 +45,7 @@ class ExpensesAdapter(private val listener: OnListenerExpenses) :
             binding.tvDay.text = SimpleDateFormat("dd", Locale.getDefault()).format(calendar.time)
             binding.tvMonth.text = SimpleDateFormat("MMM", Locale.getDefault()).format(calendar.time).lowercase()
             binding.tvYear.text = SimpleDateFormat("yyyy", Locale.getDefault()).format(calendar.time)
-            expensesInDayAdapter.submitList(dayExpenses.expenses)
+            expensesInDayAdapter.submitList(dayExpenses.expenses.reversed())
         }
     }
 

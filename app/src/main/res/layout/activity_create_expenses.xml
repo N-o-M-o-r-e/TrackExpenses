@@ -30,6 +30,7 @@
                 android:src="@drawable/ic_back" />
 
             <TextView
+                android:id="@+id/tvTitleBar"
                 style="@style/style_extrabold"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -118,6 +119,40 @@
                         android:digits="0123456789." />
 
                     <TextView
+                        android:id="@+id/tvDate"
+                        style="@style/style_textview_tag"
+                        android:text="Date time" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:background="@drawable/background_edittext"
+                        android:paddingHorizontal="16dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvDateTime"
+                            style="@style/font_medium"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center|start"
+                            android:textSize="16sp"
+                            android:textColor="#A8A7A9"
+                            android:text="10:20 - 04 thg 3 2025"/>
+
+                        <ImageButton
+                            android:id="@+id/btnDatePicker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_calendar"
+                            android:background="@color/color_transparent"/>
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                    <TextView
                         android:id="@+id/tvDesExpenses"
                         style="@style/style_textview_tag"
                         android:text="Description:" />
@@ -178,6 +213,19 @@
                     android:backgroundTint="@color/primary_variant"
                     android:text="Add Expenses"
                     android:enabled="true"
+                    android:visibility="visible"
+                    android:textColor="@color/color_white" />
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/btnUpdateExpense"
+                    style="@style/font_semibold"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_margin="20dp"
+                    android:backgroundTint="@color/primary_variant"
+                    android:text="Update Expenses"
+                    android:enabled="true"
+                    android:visibility="gone"
                     android:textColor="@color/color_white" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>

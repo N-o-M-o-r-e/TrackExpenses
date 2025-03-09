@@ -98,7 +98,7 @@ class ExpenseViewModel(private val repository: ExpenseRepository) : ViewModel() 
         }
     }
 
-    fun getAndRefreshAllExpenses() {
+    private fun getAndRefreshAllExpenses() {
         viewModelScope.launch {
             repository.getAllExpenses().onStart {
                     _uiState.update { it.copy(isLoading = true) }
@@ -151,254 +151,39 @@ class ExpenseViewModel(private val repository: ExpenseRepository) : ViewModel() 
         flow: Flow<List<ExpenseEntity>>, errorMessage: String, onSuccess: suspend () -> Unit = {}
     ) {
         viewModelScope.launch {
-            flow.onStart { _uiState.update { it.copy(isLoading = true) } }.catch { e ->
-                    _uiState.update { it.copy(isLoading = false, error = e.message) }
-                    _eventChannel.send(ExpenseEvent.ShowToast("$errorMessage: ${e.message}"))
-                }.collect { expenses ->
-                    _uiState.update {
-                        it.copy(
-                            expenses = expenses, isLoading = false, error = null
-                        )
-                    }
-                    onSuccess()
+            flow.onStart {
+                _uiState.update { it.copy(isLoading = true) }
+            }.catch { e ->
+                _uiState.update {
+                    it.copy(isLoading = false, error = e.message)
                 }
+                _eventChannel.send(ExpenseEvent.ShowToast("$errorMessage: ${e.message}"))
+            }.collect { expenses ->
+                _uiState.update {
+                    it.copy(
+                        expenses = expenses, isLoading = false, error = null
+                    )
+                }
+                onSuccess()
+            }
         }
     }
 
     private fun collectPricesFlow(flow: Flow<List<Double>>, errorMessage: String) {
         viewModelScope.launch {
-            flow.onStart { _uiState.update { it.copy(isLoading = true) } }.catch { e ->
-                    _uiState.update { it.copy(isLoading = false, error = e.message) }
-                    _eventChannel.send(ExpenseEvent.ShowToast("$errorMessage: ${e.message}"))
-                }.collect { prices ->
-                    _uiState.update { it.copy(isLoading = false, error = null) }
-                    _eventChannel.send(ExpenseEvent.ShowPrices("category", prices))
+            flow.onStart {
+                _uiState.update {
+                    it.copy(isLoading = true)
                 }
+            }.catch { e ->
+                _uiState.update {
+                    it.copy(isLoading = false, error = e.message)
+                }
+                _eventChannel.send(ExpenseEvent.ShowToast("$errorMessage: ${e.message}"))
+            }.collect { prices ->
+                _uiState.update { it.copy(isLoading = false, error = null) }
+                _eventChannel.send(ExpenseEvent.ShowPrices("category", prices))
+            }
         }
     }
 }
-
-/*
-data class ExpenseUiState(
-    val expenses: List<ExpenseEntity> = emptyList(),
-    val isLoading: Boolean = false
-)
-
-sealed class ExpenseAction {
-    data object Load : ExpenseAction()
-    data class Add(val expense: ExpenseEntity) : ExpenseAction()
-    data class Update(val expense: ExpenseEntity) : ExpenseAction()
-    data class Delete(val expense: ExpenseEntity) : ExpenseAction()
-    data class Search(val query: String) : ExpenseAction()
-    data class FilterByDateRange(val startDate: Long, val endDate: Long) : ExpenseAction()
-    data class GetPricesByCategory(val category: String) : ExpenseAction()
-    data class GetByDay(val day: Long) : ExpenseAction()
-}
-
-sealed class ExpenseEvent {
-    data class AddSuccess(val expense: ExpenseEntity) : ExpenseEvent()
-    data class ShowSuccess(val message: String) : ExpenseEvent()
-    data class ShowError(val message: String) : ExpenseEvent()
-    data class ShowPrices(val category: String, val prices: List<Double>) : ExpenseEvent()
-}
-
-class ExpenseViewModel(private val repository: ExpenseRepository) : ViewModel() {
-
-    private val actionScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
-
-    private val _uiState = MutableStateFlow(ExpenseUiState())
-    val uiState: StateFlow<ExpenseUiState> = _uiState.asStateFlow()
-
-    private val _eventFlow = MutableStateFlow<ExpenseEvent?>(null)
-    val eventFlow: StateFlow<ExpenseEvent?> = _eventFlow.asStateFlow()
-
-    init {
-        Log.d("__INSTANCE", "Instance VM: ${this.hashCode()}")
-        loadExpenses()
-    }
-
-    fun dispatch(action: ExpenseAction): Job {
-        return actionScope.launch {
-            Log.i("__VM", "Dispatching action: $action")
-            handleAction(action)
-        }
-    }
-
-    private fun handleAction(action: ExpenseAction) {
-        when (action) {
-            is ExpenseAction.Load -> loadExpenses()
-            is ExpenseAction.Add -> addExpense(action.expense)
-            is ExpenseAction.Update -> updateExpense(action.expense)
-            is ExpenseAction.Delete -> deleteExpense(action.expense)
-            is ExpenseAction.Search -> searchExpense(action.query)
-            is ExpenseAction.FilterByDateRange -> filterByDateRange(
-                action.startDate,
-                action.endDate
-            )
-
-            is ExpenseAction.GetPricesByCategory -> getPricesByCategory(action.category)
-            is ExpenseAction.GetByDay -> getExpensesByDay(action.day)
-        }
-    }
-
-    private fun loadExpenses() {
-        actionScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
-            repository.getAllExpenses().fold(
-                onSuccess = { expenses ->
-                    Log.i("__VM", "Loaded ${expenses.size} expenses")
-                    _uiState.value = _uiState.value.copy(expenses = expenses, isLoading = false)
-                },
-                onFailure = { error ->
-                    Log.e("__VM", "Failed: ${error.message}")
-                    _uiState.value = _uiState.value.copy(isLoading = false)
-                    _eventFlow.value =
-                        ExpenseEvent.ShowError("Failed to load expenses: ${error.message}")
-                }
-            )
-        }
-    }
-
-    private fun addExpense(expense: ExpenseEntity) {
-        actionScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
-            repository.insertExpense(expense).fold(
-                onSuccess = { id ->
-                    Log.i("__VM", "Expense inserted with ID: $id")
-                    val updatedExpenses = _uiState.value.expenses + expense.copy(id = id.toInt())
-                    _uiState.value =
-                        _uiState.value.copy(expenses = updatedExpenses, isLoading = false)
-                    _eventFlow.value = ExpenseEvent.AddSuccess(expense.copy(id = id.toInt()))
-                    _eventFlow.value =
-                        ExpenseEvent.ShowSuccess("Expense added successfully id = $id")
-                },
-                onFailure = { error ->
-                    Log.e("__VM", "Failed to add expense: ${error.message}")
-                    _uiState.value = _uiState.value.copy(isLoading = false)
-                    _eventFlow.value =
-                        ExpenseEvent.ShowError("Failed to add expense: ${error.message}")
-                }
-            )
-        }
-    }
-
-    private fun updateExpense(expense: ExpenseEntity) {
-        actionScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
-            repository.updateExpense(expense).fold(
-                onSuccess = {
-                    Log.i("__VM", "Update Expense: $expense")
-                    _eventFlow.value = ExpenseEvent.ShowSuccess("Updated expense")
-                    loadExpenses() // Reload để cập nhật danh sách
-                },
-                onFailure = { error ->
-                    Log.e("__VM", "Failed to update expense: ${error.message}")
-                    _uiState.value = _uiState.value.copy(isLoading = false)
-                    _eventFlow.value = ExpenseEvent.ShowError("Failed to update: ${error.message}")
-                }
-            )
-        }
-    }
-
-    private fun deleteExpense(expense: ExpenseEntity) {
-        actionScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
-            repository.deleteExpense(expense).fold(
-                onSuccess = {
-                    Log.i("__VM", "Delete Expense: $expense")
-                    _eventFlow.value = ExpenseEvent.ShowSuccess("Deleted expense")
-                    loadExpenses() // Reload để cập nhật danh sách
-                },
-                onFailure = { error ->
-                    Log.e("__VM", "Failed to delete expense: ${error.message}")
-                    _uiState.value = _uiState.value.copy(isLoading = false)
-                    _eventFlow.value = ExpenseEvent.ShowError("Failed to delete: ${error.message}")
-                }
-            )
-        }
-    }
-
-    private fun searchExpense(query: String) {
-        actionScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
-            Log.i("__VM", "Handling Search action: $query")
-            repository.searchExpenses(query).fold(
-                onSuccess = { results ->
-                    Log.i("__VM", "Search returned ${results.size} results")
-                    _uiState.value = _uiState.value.copy(expenses = results, isLoading = false)
-                },
-                onFailure = { error ->
-                    Log.e("__VM", "Search failed: ${error.message}")
-                    _uiState.value = _uiState.value.copy(isLoading = false)
-                    _eventFlow.value = ExpenseEvent.ShowError("Search failed: ${error.message}")
-                }
-            )
-        }
-    }
-
-    private fun filterByDateRange(startDate: Long, endDate: Long) {
-        actionScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
-            repository.getExpensesByDateRange(startDate, endDate).fold(
-                onSuccess = { results ->
-                    Log.i("__VM", "Filter returned ${results.size} results")
-                    _uiState.value = _uiState.value.copy(expenses = results, isLoading = false)
-                },
-                onFailure = { error ->
-                    Log.e("__VM", "Failed to filter: ${error.message}")
-                    _uiState.value = _uiState.value.copy(isLoading = false)
-                    _eventFlow.value = ExpenseEvent.ShowError("Filter failed: ${error.message}")
-                }
-            )
-        }
-    }
-
-    private fun getPricesByCategory(category: String) {
-        actionScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
-            Log.i("__VM", "Handling GetPricesByCategory action: $category")
-            repository.getPricesByCategory(category).fold(
-                onSuccess = { prices ->
-                    Log.i("__VM", "Got prices: $prices")
-                    _uiState.value = _uiState.value.copy(isLoading = false)
-                    _eventFlow.value = ExpenseEvent.ShowPrices(category, prices)
-                },
-                onFailure = { error ->
-                    Log.e("__VM", "Failed to get prices: ${error.message}")
-                    _uiState.value = _uiState.value.copy(isLoading = false)
-                    _eventFlow.value =
-                        ExpenseEvent.ShowError("Failed to get prices: ${error.message}")
-                }
-            )
-        }
-    }
-
-    private fun getExpensesByDay(day: Long) {
-        actionScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
-            Log.i("__VM", "Handling GetByDay action: $day")
-            repository.getExpensesByDay(day).fold(
-                onSuccess = { expenses ->
-                    Log.i("__VM", "Got ${expenses.size} expenses for day")
-                    _uiState.value = _uiState.value.copy(expenses = expenses, isLoading = false)
-                    _eventFlow.value = ExpenseEvent.ShowSuccess("Loaded expenses for the day")
-                },
-                onFailure = { error ->
-                    Log.e("__VM", "Failed to load day expenses: ${error.message}")
-                    _uiState.value = _uiState.value.copy(isLoading = false)
-                    _eventFlow.value =
-                        ExpenseEvent.ShowError("Failed to load day expenses: ${error.message}")
-                }
-            )
-        }
-    }
-
-    override fun onCleared() {
-        Log.i("__VM", "ViewModel cleared")
-        actionScope.cancel()
-        super.onCleared()
-    }
-}
-
-
-*/

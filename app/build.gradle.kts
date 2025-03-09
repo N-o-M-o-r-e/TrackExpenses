@@ -85,4 +85,7 @@ dependencies {
 
     //crop image:
     implementation ("com.github.yalantis:ucrop:2.2.8")
+
+    //NumberPicker
+    implementation ("io.github.ShawnLin013:number-picker:2.4.13")
 }

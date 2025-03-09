@@ -3,7 +3,12 @@ package com.tstool.trackexpenses.utils.ktx
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.widget.AppCompatEditText
+import com.tstool.trackexpenses.data.model.ExpenseTag
 import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.Locale
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun AppCompatEditText.formatCurrencyInput() {
     addTextChangedListener(object : TextWatcher {
@@ -41,4 +46,23 @@ fun AppCompatEditText.formatCurrencyInput() {
 fun AppCompatEditText.getCurrencyValue(): Double? {
     val cleanString = text.toString().replace(".", "").trim()
     return cleanString.toDoubleOrNull()
+}
+
+// Chuyển Double thành chuỗi tiền tệ để gán lại EditText
+fun Double?.toCurrencyString(): String {
+    if (this == null) return ""
+    val formatter = NumberFormat.getNumberInstance(Locale("vi", "VN"))
+    formatter.minimumFractionDigits = 0
+    formatter.maximumFractionDigits = 2
+    return formatter.format(this)
+}
+
+fun Long.toFormattedDateTime(): String {
+    val sdf = SimpleDateFormat("HH:mm - dd 'thg' M yyyy", Locale("vi", "VN"))
+    return sdf.format(Date(this))
+}
+
+
+fun getResourceByTag(nameTag: String): Int? {
+    return ExpenseTag.entries.firstOrNull { it.nameTag == nameTag }?.resource
 }

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tstool.trackexpenses.data.room.entity.ExpenseEntity
 import com.tstool.trackexpenses.databinding.ItemExpensesInDayBinding
+import com.tstool.trackexpenses.utils.ktx.getResourceByTag
+import com.tstool.trackexpenses.utils.ktx.loadImageWithGlide
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -46,6 +48,11 @@ class ExpensesInDayAdapter(private val listener: OnListenerExpenses) :
             val totalCost = expense.price
             val formatter = DecimalFormat("#,###")
             binding.tvCost.text = formatter.format(totalCost)
+
+            binding.root.context.loadImageWithGlide(
+                imageView = binding.imgTag,
+                resource = getResourceByTag(expense.category)
+            )
 
             // Gán sự kiện click
             binding.root.setOnClickListener {

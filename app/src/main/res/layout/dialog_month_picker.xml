@@ -1,0 +1,135 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:gravity="center|top"
+            android:background="@drawable/background_dialog">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Month"
+                android:textColor="@color/black"
+                style="@style/style_extrabold"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="12dp" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Month"
+                    android:gravity="center"
+                    style="@style/style_semibold"
+                    android:textSize="16sp"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Year"
+                    android:gravity="center"
+                    style="@style/style_semibold"
+                    android:textSize="16sp"
+                    />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.shawnlin.numberpicker.NumberPicker
+                    android:id="@+id/pickerMonth"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:np_selectedTextUnderline="false"
+                    app:np_selectedTextStrikeThru="false"
+                    app:np_textColor="#CBD0DE"
+                    app:np_selectedTextSize="20sp"
+                    app:np_textSize="16sp"
+                    app:np_selectedTextColor="#333333"
+                    app:np_dividerColor="@color/gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=":"
+                    android:gravity="center"
+                    android:paddingBottom="12dp"
+                    />
+
+                <com.shawnlin.numberpicker.NumberPicker
+                    android:id="@+id/pickerYear"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:np_selectedTextUnderline="false"
+                    app:np_selectedTextStrikeThru="false"
+                    app:np_textColor="#CBD0DE"
+                    app:np_selectedTextSize="20sp"
+                    app:np_textSize="16sp"
+                    app:np_selectedTextColor="#333333"
+                    app:np_dividerColor="@color/gray" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/btnCancel"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:text="Cancel"
+                    android:textSize="16sp"
+                    style="@style/style_medium"
+                    android:backgroundTint="@color/color_chip_background"
+                    android:layout_marginVertical="8dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:textAllCaps="false" />
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/btnOk"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    style="@style/style_medium"
+                    android:backgroundTint="@color/color_button"
+                    android:layout_marginVertical="8dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:textColor="@color/white"
+                    android:text="Ok"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

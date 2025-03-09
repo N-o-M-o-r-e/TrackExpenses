@@ -94,6 +94,7 @@
                     app:cardCornerRadius="8dp">
 
                     <ImageView
+                        android:id="@+id/btnDateTime"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerInside"
@@ -139,6 +140,7 @@
                             android:textSize="20sp" />
 
                         <TextView
+                            android:id="@+id/tvCurrency"
                             style="@style/font_regular"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
