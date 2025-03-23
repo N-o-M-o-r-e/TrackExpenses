@@ -1,6 +1,7 @@
 package com.tstool.trackexpenses.ui.view.viewmodel
 
 
+import android.nfc.Tag
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -105,6 +106,7 @@ class ExpenseViewModel(private val repository: ExpenseRepository) : ViewModel() 
                 }.catch { e ->
                     _uiState.update { it.copy(isLoading = false, error = e.message) }
                     _eventChannel.send(ExpenseEvent.ShowToast("Load failed: ${e.message}"))
+                Log.e("__VM_E", "getAndRefreshAllExpenses: ${e.message}", )
                 }.collect { expenses ->
                     _uiState.update {
                         it.copy(
@@ -124,6 +126,7 @@ class ExpenseViewModel(private val repository: ExpenseRepository) : ViewModel() 
             getAndRefreshAllExpenses()
         } catch (e: Exception) {
             _eventChannel.send(ExpenseEvent.ShowToast("Add failed: ${e.message}"))
+            Log.e("__VM_E", "addExpense: ${e.message}", )
         }
     }
 
@@ -134,6 +137,7 @@ class ExpenseViewModel(private val repository: ExpenseRepository) : ViewModel() 
             getAndRefreshAllExpenses()
         } catch (e: Exception) {
             _eventChannel.send(ExpenseEvent.ShowToast("Update failed: ${e.message}"))
+            Log.e("__VM_E", "updateExpense: ${e.message}", )
         }
     }
 
@@ -144,6 +148,7 @@ class ExpenseViewModel(private val repository: ExpenseRepository) : ViewModel() 
             getAndRefreshAllExpenses()
         } catch (e: Exception) {
             _eventChannel.send(ExpenseEvent.ShowToast("Delete failed: ${e.message}"))
+            Log.e("__VM_E", "deleteExpense: ${e.message}", )
         }
     }
 

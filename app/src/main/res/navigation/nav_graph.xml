@@ -9,23 +9,27 @@
         android:id="@+id/expensesFragment"
         android:name="com.tstool.trackexpenses.ui.view.home.fragment.expenses.ExpensesFragment"
         android:label="ExpensesFragment"
-        tools:layout="@layout/fragment_expenses" />
+        tools:layout="@layout/fragment_expenses" >
+    </fragment>
 
     <fragment
         android:id="@+id/incomeFragment"
-        android:name="com.tstool.trackexpenses.ui.view.home.fragment.IncomeFragment"
+        android:name="com.tstool.trackexpenses.ui.view.home.fragment.income.IncomeFragment"
         android:label="IncomeFragment"
-        tools:layout="@layout/fragment_income" />
+        tools:layout="@layout/fragment_income" >
+    </fragment>
 
     <fragment
         android:id="@+id/chartFragment"
-        android:name="com.tstool.trackexpenses.ui.view.home.fragment.ChartFragment"
+        android:name="com.tstool.trackexpenses.ui.view.home.fragment.chart.ChartFragment"
         android:label="ChartFragment"
-        tools:layout="@layout/fragment_chart" />
+        tools:layout="@layout/fragment_chart" >
+    </fragment>
 
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.tstool.trackexpenses.ui.view.home.fragment.SettingFragment"
+        android:name="com.tstool.trackexpenses.ui.view.home.fragment.setting.SettingFragment"
         android:label="SettingFragment"
-        tools:layout="@layout/fragment_setting" />
+        tools:layout="@layout/fragment_setting" >
+    </fragment>
 </navigation>

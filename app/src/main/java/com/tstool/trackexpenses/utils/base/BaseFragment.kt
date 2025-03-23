@@ -88,6 +88,8 @@ abstract class BaseFragment<Binding : ViewBinding>(private val inflate: Inflate<
     }
 
 
+
+
 //    fun isPremiumAccount(): Boolean {
 //        val isPremium = when (AppLovinManager.IS_TEST_PREMIUM) {
 //            true -> true

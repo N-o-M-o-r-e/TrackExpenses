@@ -7,7 +7,7 @@
 
     <application
         android:name=".MyApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -23,7 +23,10 @@
             android:name=".ui.view.detail.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.create.CreateExpensesActivity"
+            android:name=".ui.view.create.expenses.CreateExpensesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.view.create.income.CreateIncomeActivity"
             android:exported="false" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"

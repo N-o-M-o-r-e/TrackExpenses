@@ -6,7 +6,10 @@ import kotlinx.coroutines.flow.Flow
 
 import java.util.Calendar
 
-class ExpenseRepository(private val expenseDao: ExpenseDao) {
+class
+
+
+ExpenseRepository(private val expenseDao: ExpenseDao) {
     fun getAllExpenses(): Flow<List<ExpenseEntity>> = expenseDao.getAll()
 
     fun getExpenseById(id: Int): Flow<ExpenseEntity?> = expenseDao.getById(id)

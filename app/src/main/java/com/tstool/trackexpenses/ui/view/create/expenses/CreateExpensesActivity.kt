@@ -1,4 +1,4 @@
-package com.tstool.trackexpenses.ui.view.create
+package com.tstool.trackexpenses.ui.view.create.expenses
 
 import android.app.Activity
 import android.app.DatePickerDialog
@@ -14,8 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import com.tstool.trackexpenses.data.model.ExpenseTag
 import com.tstool.trackexpenses.data.room.entity.ExpenseEntity
 import com.tstool.trackexpenses.databinding.ActivityCreateExpensesBinding
-import com.tstool.trackexpenses.ui.view.create.adapter.ExpensesTagAdapter
-import com.tstool.trackexpenses.ui.view.create.adapter.ListenerExpensesTag
+import com.tstool.trackexpenses.ui.view.create.expenses.adapter.ExpensesTagAdapter
+import com.tstool.trackexpenses.ui.view.create.expenses.adapter.ListenerExpensesTag
 import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseEvent
 import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseUiAction
 import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseViewModel

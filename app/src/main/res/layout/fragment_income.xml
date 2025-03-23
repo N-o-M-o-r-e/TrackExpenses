@@ -1,14 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.view.home.fragment.IncomeFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@color/background"
+        android:orientation="vertical"
+        tools:context=".ui.view.home.fragment.income.IncomeFragment">
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/statusBar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/primary_variant"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvTitleBar"
+                style="@style/style_extrabold"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|start"
+                android:paddingStart="20dp"
+                android:text="My Income"
+                android:textColor="@color/color_white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tvMonth"
+                style="@style/font_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="thg 3"
+                android:textColor="#FFAB00"
+                android:textSize="16sp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_gravity="center|bottom"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginVertical="20dp"
+                android:backgroundTint="#FFAB00"
+                app:cardCornerRadius="12dp" />
+
+            <TextView
+                android:id="@+id/tvYear"
+                style="@style/font_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2025"
+                android:textColor="#FFAB00"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/btnQuestion"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_calendar"
+                app:tint="#FFAB00" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp">
+
+            <TextView
+                style="@style/style_bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/ic_label"
+                android:drawablePadding="8dp"
+                android:gravity="start|center"
+                android:text="Income list:"
+                android:textSize="16sp" />
+
+            <CheckBox
+                android:id="@+id/btnTag"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:button="@drawable/selector_sort_tag"
+                android:elevation="2dp"
+                android:layout_margin="2dp"
+                android:background="@drawable/background_button_square"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:cardCornerRadius="16dp"
+            android:visibility="visible"
+            android:layout_marginHorizontal="20dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:orientation="horizontal">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="4"
+                    tools:itemCount="4"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    tools:listitem="@layout/item_category"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <View
+                    android:id="@+id/viewLine"
+                    android:layout_width="1dp"
+                    android:visibility="gone"
+                    android:layout_height="match_parent"
+                    android:background="@color/text_color_description"
+                    android:layout_marginHorizontal="8dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvIncome"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="vertical"
+                    tools:listitem="@layout/item_income"/>
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="20dp"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center|start"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:id="@+id/tvTitleSpending"
+                    style="@style/font_bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center|start"
+                    android:text="Total income:"
+                    android:textColor="@color/color_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvTotalCost"
+                    style="@style/font_extrabold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:gravity="start|center"
+                    android:text="23.000.000"
+                    android:textColor="@color/color_black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvCurrency"
+                    style="@style/font_regular"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="start|center"
+                    android:text="VND"
+                    android:textColor="@color/text_color_description"
+                    android:textSize="16sp" />
+
+                <androidx.appcompat.widget.AppCompatToggleButton
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/selector_hide_show"
+                    android:checked="true"
+                    android:textOff=""
+                    android:textOn="" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

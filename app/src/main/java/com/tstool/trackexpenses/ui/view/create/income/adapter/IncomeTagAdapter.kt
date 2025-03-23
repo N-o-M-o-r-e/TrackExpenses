@@ -1,7 +1,7 @@
-package com.tstool.trackexpenses.ui.view.create.adapter
+package com.tstool.trackexpenses.ui.view.create.income.adapter
 
 import android.util.Log
-import android.view.LayoutInflater.from
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
@@ -10,17 +10,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tstool.trackexpenses.R
 import com.tstool.trackexpenses.data.model.ExpenseTag
-import com.tstool.trackexpenses.databinding.ItemExpensesTagBinding
+import com.tstool.trackexpenses.data.model.IncomeTag
+import com.tstool.trackexpenses.databinding.ItemIncomeTagBinding
 
-class ExpensesTagAdapter(private val listener: ListenerExpensesTag) :
-    ListAdapter<ExpenseTag, ExpensesTagViewHolder>(ExpensesTagDiffUtil()) {
+class IncomeTagAdapter(private val listener: ListenerIncomeTag) :
+    ListAdapter<IncomeTag, IncomeTagViewHolder>(IncomeDiffUtil()) {
     private var selectedPosition: Int = 0
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpensesTagViewHolder {
-        return ExpensesTagViewHolder.createViewHolder(parent, listener)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IncomeTagViewHolder {
+        return IncomeTagViewHolder.createViewHolder(parent, listener)
     }
 
-    override fun onBindViewHolder(holder: ExpensesTagViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: IncomeTagViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item, position == selectedPosition)
 
@@ -30,11 +31,11 @@ class ExpensesTagAdapter(private val listener: ListenerExpensesTag) :
 
             notifyItemChanged(previousPosition)
             notifyItemChanged(selectedPosition)
-            listener.onClickExpensesTag(item)
+            listener.onClickIncomeTag(item)
         }
     }
 
-    override fun submitList(list: List<ExpenseTag>?) {
+    override fun submitList(list: List<IncomeTag>?) {
         super.submitList(list?.toList())
         if (!list.isNullOrEmpty()) {
             notifyItemChanged(selectedPosition)
@@ -42,25 +43,26 @@ class ExpensesTagAdapter(private val listener: ListenerExpensesTag) :
     }
 }
 
-class ExpensesTagDiffUtil : DiffUtil.ItemCallback<ExpenseTag>() {
-    override fun areItemsTheSame(oldItem: ExpenseTag, newItem: ExpenseTag): Boolean {
+class IncomeDiffUtil : DiffUtil.ItemCallback<IncomeTag>() {
+    override fun areItemsTheSame(oldItem: IncomeTag, newItem: IncomeTag): Boolean {
         return oldItem.nameTag == newItem.nameTag
     }
 
-    override fun areContentsTheSame(oldItem: ExpenseTag, newItem: ExpenseTag): Boolean {
+    override fun areContentsTheSame(oldItem: IncomeTag, newItem: IncomeTag): Boolean {
         return oldItem == newItem
     }
-
 }
 
-interface ListenerExpensesTag {
-    fun onClickExpensesTag(folder: ExpenseTag)
+interface ListenerIncomeTag {
+    fun onClickIncomeTag(folder: IncomeTag)
 }
 
-class ExpensesTagViewHolder(
-    private val binding: ItemExpensesTagBinding, private val listener: ListenerExpensesTag
+class IncomeTagViewHolder(
+    private val binding: ItemIncomeTagBinding,
+    private val listener: ListenerIncomeTag
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(tag: ExpenseTag, isSelect: Boolean) {
+
+    fun bind(tag: IncomeTag, isSelect: Boolean) {
         Glide.with(binding.root.context).load(tag.resource).into( binding.imgTag)
         binding.tvTag.text = tag.nameTag
 
@@ -76,20 +78,21 @@ class ExpensesTagViewHolder(
             }
         }
         binding.root.setOnClickListener {
-            listener.onClickExpensesTag(tag)
+            listener.onClickIncomeTag(tag)
             Log.i("__Create", "bind: $tag")
         }
     }
 
     companion object {
-        fun createViewHolder(
-            parent: ViewGroup,
-            listener: ListenerExpensesTag
-        ): ExpensesTagViewHolder {
-            return ExpensesTagViewHolder(
-                binding = ItemExpensesTagBinding.inflate(from(parent.context), parent, false),
-                listener = listener
+        fun createViewHolder(parent: ViewGroup, listener: ListenerIncomeTag): IncomeTagViewHolder {
+            return IncomeTagViewHolder(
+                ItemIncomeTagBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                ), listener
             )
         }
     }
 }
+

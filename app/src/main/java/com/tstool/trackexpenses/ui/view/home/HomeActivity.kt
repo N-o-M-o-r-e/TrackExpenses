@@ -3,8 +3,9 @@ package com.tstool.trackexpenses.ui.view.home
 import android.util.Log
 import androidx.viewpager2.widget.ViewPager2
 import com.tstool.trackexpenses.databinding.ActivityHomeBinding
-import com.tstool.trackexpenses.ui.view.create.CreateExpensesActivity
-import com.tstool.trackexpenses.ui.view.home.fragment.adapter.ViewPagerAdapter
+import com.tstool.trackexpenses.ui.view.create.expenses.CreateExpensesActivity
+import com.tstool.trackexpenses.ui.view.create.income.CreateIncomeActivity
+import com.tstool.trackexpenses.ui.view.home.fragment.ViewPagerAdapter
 import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseViewModel
 import com.tstool.trackexpenses.utils.base.BaseActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -13,6 +14,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
     private lateinit var viewPager: ViewPager2
     private lateinit var viewPagerAdapter: ViewPagerAdapter
     private val viewModel by viewModel<ExpenseViewModel>()
+    private var indexPage = 0
 
     override fun initAds() {
 
@@ -58,13 +60,28 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>(ActivityHomeBinding::infl
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 radioButtons[position].isChecked = true
+                indexPage = position
             }
         })
     }
 
     override fun initAction() {
         binding.bottomBar.cardAdd.setOnClickListener {
-            goToNewActivity(CreateExpensesActivity::class.java)
+            when(indexPage){
+                0-> {
+                    goToNewActivity(CreateExpensesActivity::class.java)
+                    return@setOnClickListener
+                }
+                1-> {
+                    goToNewActivity(CreateIncomeActivity::class.java)
+                    return@setOnClickListener
+                }
+                else->{
+                    goToNewActivity(CreateExpensesActivity::class.java)
+                    return@setOnClickListener
+                }
+            }
+
         }
     }
 }

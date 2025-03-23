@@ -85,21 +85,23 @@
 
                 android:gravity="center">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/btnCalendar"
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:id="@+id/btnCalendar"-->
+<!--                    android:layout_width="36dp"-->
+<!--                    android:layout_height="36dp"-->
+<!--                    android:layout_marginHorizontal="2dp"-->
+<!--                    android:background="@drawable/background_button_square"-->
+<!--                    app:cardCornerRadius="8dp">-->
+
+                <ImageButton
+                    android:id="@+id/btnDateTime"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:layout_marginHorizontal="2dp"
                     android:background="@drawable/background_button_square"
-                    app:cardCornerRadius="8dp">
-
-                    <ImageView
-                        android:id="@+id/btnDateTime"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/ic_calendar" />
-                </androidx.cardview.widget.CardView>
+                    android:elevation="12dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_calendar" />
+<!--                </androidx.cardview.widget.CardView>-->
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
@@ -123,7 +125,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center|start"
-                            android:text="Total cost:"
+                            android:text="Total :"
                             android:textColor="@color/color_black"
                             android:textSize="16sp" />
 
@@ -137,7 +139,7 @@
                             android:gravity="start|center"
                             android:text="23.000.000"
                             android:textColor="@color/color_black"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/tvCurrency"
@@ -148,7 +150,7 @@
                             android:gravity="start|center"
                             android:text="VND"
                             android:textColor="@color/text_color_description"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
 
                         <androidx.appcompat.widget.AppCompatToggleButton
                             android:layout_width="20dp"

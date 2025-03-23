@@ -55,7 +55,7 @@ class ExpensesInDayAdapter(private val listener: OnListenerExpenses) :
             )
 
             // Gán sự kiện click
-            binding.root.setOnClickListener {
+            binding.rootItem.setOnClickListener {
                 listener.onClickExpense(expense)
             }
         }

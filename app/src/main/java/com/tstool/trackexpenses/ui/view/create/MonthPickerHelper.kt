@@ -1,4 +1,4 @@
-package com.tstool.trackexpenses.ui.view.create.helper
+package com.tstool.trackexpenses.ui.view.create
 
 import android.content.Context
 import android.graphics.Color
@@ -33,7 +33,7 @@ object MonthPickerHelper {
                 "Thg 1", "Thg 2", "Thg 3", "Thg 4", "Thg 5", "Thg 6",
                 "Thg 7", "Thg 8", "Thg 9", "Thg 10", "Thg 11", "Thg 12"
             )
-            wrapSelectorWheel = true // Cho phép vòng lặp
+            wrapSelectorWheel = true
         }
 
         // Cấu hình Year Picker

@@ -5,21 +5,18 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.tstool.trackexpenses.data.room.entity.ExpenseEntity
 import com.tstool.trackexpenses.databinding.FragmentExpensesBinding
-import com.tstool.trackexpenses.ui.view.create.helper.MonthPickerHelper
+import com.tstool.trackexpenses.ui.view.create.MonthPickerHelper
 import com.tstool.trackexpenses.ui.view.detail.DetailActivity
 import com.tstool.trackexpenses.ui.view.home.fragment.expenses.adapter.DayExpenses
 import com.tstool.trackexpenses.ui.view.home.fragment.expenses.adapter.ExpensesAdapter
 import com.tstool.trackexpenses.ui.view.home.fragment.expenses.adapter.OnListenerExpenses
-import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseEvent
 import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseUiAction
 import com.tstool.trackexpenses.ui.view.viewmodel.ExpenseViewModel
 import com.tstool.trackexpenses.utils.base.BaseFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.DecimalFormat
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
 
 class ExpensesFragment : BaseFragment<FragmentExpensesBinding>(FragmentExpensesBinding::inflate) {
 
@@ -28,6 +25,7 @@ class ExpensesFragment : BaseFragment<FragmentExpensesBinding>(FragmentExpensesB
     private val expensesAdapter: ExpensesAdapter by lazy {
         ExpensesAdapter(object : OnListenerExpenses {
             override fun onClickExpense(expense: ExpenseEntity) {
+                Log.d(TAG, "onClickExpense: ")
                 goToNewActivity(
                     activity = DetailActivity::class.java,
                     isFinish = false,
@@ -70,7 +68,8 @@ class ExpensesFragment : BaseFragment<FragmentExpensesBinding>(FragmentExpensesB
             }
         }
 
-        binding.btnCalendar.setOnClickListener {
+        binding.btnDateTime.setOnClickListener {
+            Log.i(TAG, "initAction: click date")
             MonthPickerHelper.showMonthPicker(requireContext()) { startOfMonth, endOfMonth ->
                 viewModel.dispatch(ExpenseUiAction.FilterByDateRange(startOfMonth, endOfMonth))
 //                val sdf = SimpleDateFormat("MM/yyyy", Locale("vi", "VN"))
@@ -108,5 +107,6 @@ class ExpensesFragment : BaseFragment<FragmentExpensesBinding>(FragmentExpensesB
 
     companion object {
         const val KEY_EXPENSE = "KEY_EXPENSE"
+        const val TAG = "__ExpensesFragment"
     }
 }

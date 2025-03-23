@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 <!--    font-->
     <style name="font_extrabold">
         <item name="fontFamily">@font/nunito_extrabold</item>
@@ -70,6 +70,16 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">16sp</item>
         <item name="android:layout_marginTop">12dp</item>
+    </style>
+
+    <style name="style_textview_label" parent="font_bold">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">4dp</item>
+        <item name="elevation">12dp</item>
+        <item name="android:layout_marginHorizontal" tools:ignore="NewApi">2dp</item>
     </style>
 
 

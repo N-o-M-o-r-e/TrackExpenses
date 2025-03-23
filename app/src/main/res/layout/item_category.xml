@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/incomeTag"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_category_on"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvCategory"
+        style="@style/style_textview_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Salary" />
+
+    <ImageView
+        android:id="@+id/ivCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_salary" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
