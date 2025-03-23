@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.widget.AppCompatEditText
 import com.tstool.trackexpenses.data.model.ExpenseTag
+import com.tstool.trackexpenses.data.model.IncomeTag
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.Locale
@@ -63,6 +64,10 @@ fun Long.toFormattedDateTime(): String {
 }
 
 
-fun getResourceByTag(nameTag: String): Int? {
+fun getResourceByTagEx(nameTag: String): Int? {
     return ExpenseTag.entries.firstOrNull { it.nameTag == nameTag }?.resource
+}
+
+fun getResourceByTagIc(nameTag: String): Int? {
+    return IncomeTag.entries.find { it.nameTag == nameTag }?.resource
 }

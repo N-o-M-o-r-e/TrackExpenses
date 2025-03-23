@@ -72,8 +72,6 @@ class ExpensesFragment : BaseFragment<FragmentExpensesBinding>(FragmentExpensesB
             Log.i(TAG, "initAction: click date")
             MonthPickerHelper.showMonthPicker(requireContext()) { startOfMonth, endOfMonth ->
                 viewModel.dispatch(ExpenseUiAction.FilterByDateRange(startOfMonth, endOfMonth))
-//                val sdf = SimpleDateFormat("MM/yyyy", Locale("vi", "VN"))
-//                binding.edtDateTime.setText(sdf.format(Date(startOfMonth))) // Hiển thị tháng đã chọn
             }
         }
     }

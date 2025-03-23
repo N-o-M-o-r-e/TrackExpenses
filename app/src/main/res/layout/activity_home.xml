@@ -13,12 +13,18 @@
         android:background="@color/surface_color"
         tools:context=".ui.view.home.HomeActivity">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
+        <fragment
+            android:id="@+id/navComponent"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/bottomBar" />
+            app:navGraph="@navigation/nav_graph" />
 
         <include
             android:id="@+id/bottomBar"

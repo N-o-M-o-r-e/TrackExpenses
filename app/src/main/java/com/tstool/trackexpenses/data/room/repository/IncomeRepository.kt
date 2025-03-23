@@ -23,6 +23,13 @@ class IncomeRepository(private val incomeDao: IncomeDao) {
         return incomeDao.getByDay(dayStart, dayEnd)
     }
 
+    // Thêm hàm mới
+    fun getIncomeByCategoryAndDateRange(
+        category: String,
+        startDate: Long,
+        endDate: Long
+    ): Flow<List<IncomeEntity>> = incomeDao.getIncomeByCategoryAndDateRange(category, startDate, endDate)
+
     suspend fun insertIncome(income: IncomeEntity): Long = incomeDao.insert(income)
 
     suspend fun updateIncome(income: IncomeEntity) = incomeDao.update(income)

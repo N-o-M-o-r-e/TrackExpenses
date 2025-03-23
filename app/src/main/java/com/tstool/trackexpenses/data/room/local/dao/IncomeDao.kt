@@ -28,6 +28,10 @@ interface IncomeDao {
     @Query("SELECT * FROM income_db WHERE date >= :dayStart AND date < :dayEnd ORDER BY date DESC")
     fun getByDay(dayStart: Long, dayEnd: Long): Flow<List<IncomeEntity>>
 
+    // Thêm truy vấn mới
+    @Query("SELECT * FROM income_db WHERE category = :category AND date BETWEEN :startDate AND :endDate ORDER BY date DESC")
+    fun getIncomeByCategoryAndDateRange(category: String, startDate: Long, endDate: Long): Flow<List<IncomeEntity>>
+
     @Insert
     suspend fun insert(income: IncomeEntity): Long
 

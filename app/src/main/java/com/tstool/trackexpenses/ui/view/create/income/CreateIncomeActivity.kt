@@ -72,7 +72,9 @@ class CreateIncomeActivity :
                     }
 
                     IncomeEvent.IncomeDeleted -> {}
-                    IncomeEvent.IncomeFiltered -> {}
+                    IncomeEvent.IncomeFiltered -> {
+
+                    }
                     IncomeEvent.IncomeSearched -> {}
                     is IncomeEvent.ShowToast -> {
                         toastMessage(event.message)
@@ -91,6 +93,7 @@ class CreateIncomeActivity :
             binding.btnAddIncome.visibility = View.VISIBLE
             binding.btnUpdateIncome.visibility = View.GONE
             selectedTimestamp = System.currentTimeMillis()
+
         } else {
             binding.tvTitleBar.text = "Update Income"
             binding.btnAddIncome.visibility = View.GONE

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tstool.trackexpenses.data.room.entity.ExpenseEntity
 import com.tstool.trackexpenses.databinding.ItemExpensesInDayBinding
-import com.tstool.trackexpenses.utils.ktx.getResourceByTag
+import com.tstool.trackexpenses.utils.ktx.getResourceByTagEx
 import com.tstool.trackexpenses.utils.ktx.loadImageWithGlide
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -51,7 +51,7 @@ class ExpensesInDayAdapter(private val listener: OnListenerExpenses) :
 
             binding.root.context.loadImageWithGlide(
                 imageView = binding.imgTag,
-                resource = getResourceByTag(expense.category)
+                resource = getResourceByTagEx(expense.category)
             )
 
             // Gán sự kiện click
