@@ -4,11 +4,13 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<UI_STATE, ACTION, EVENT> : ViewModel() {
@@ -24,15 +26,15 @@ abstract class BaseViewModel<UI_STATE, ACTION, EVENT> : ViewModel() {
         actionSharedFlow.emit(action)
     }
 
-    private val eventSharedFlow = MutableSharedFlow<EVENT>()
-    val eventFlow = eventSharedFlow.asSharedFlow()
-
+    private val eventChannel = Channel<EVENT>(Channel.UNLIMITED)
+    val eventFlow = eventChannel.receiveAsFlow()
     fun sendEvent(event: EVENT) = viewModelScope.launch {
-        eventSharedFlow.emit(event)
+        eventChannel.send(event)
     }
 
     override fun onCleared() {
         Log.i("__VM", "ViewModel cleared")
+        eventChannel.close()
         super.onCleared()
     }
 }

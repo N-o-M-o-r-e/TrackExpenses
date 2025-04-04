@@ -96,8 +96,8 @@ class IncomeViewModel(private val repository: IncomeRepository) : ViewModel() {
                             collectFlow(
                                 repository.getIncomeByCategoryAndDateRange(
                                     action.category,
-                                    currentState.startDate!!,
-                                    currentState.endDate!!
+                                    currentState.startDate,
+                                    currentState.endDate
                                 ),
                                 "Search failed"
                             ) { _eventChannel.send(IncomeEvent.IncomeSearched) }
